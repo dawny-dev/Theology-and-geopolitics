@@ -1,261 +1,234 @@
-import { supabase } from '@/lib/supabase'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { use } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
 
-export default async function ArticlePage({ params }) {
-  const { slug } = await params
+export default function ArticlePage({ params }) {
+  const { slug } = use(params)
+  const [article, setArticle] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  const { data: article, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .single()
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const { data, error: fetchError } = await supabase
+          .from('articles')
+          .select('*')
+          .eq('slug', slug)
+          .single()
 
-  if (!article) {
-    return <p className="p-6">Article not found</p>
-  }
+        if (fetchError) {
+          setError('Article not found')
+          setLoading(false)
+          return
+        }
+
+        setArticle(data)
+        setLoading(false)
+      } catch (err) {
+        setError('Failed to load article')
+        setLoading(false)
+      }
+    }
+
+    fetchArticle()
+  }, [slug])
+
+  if (loading) return (
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: '#64c8ff' }}>
+      Loading...
+    </div>
+  )
+
+  if (error) return (
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: '#ff6464' }}>
+      {error}
+    </div>
+  )
+
+  if (!article) return (
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: '#64c8ff' }}>
+      Article not found
+    </div>
+  )
 
   const publishDate = article.published_at 
-    ? new Date(article.published_at).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
+    ? new Date(article.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     : 'No date'
 
   const wordCount = article.content.split(' ').length
   const readingTime = Math.ceil(wordCount / 200)
 
   return (
-    <div className="bg-white min-h-screen">
+    <div style={{ background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', color: '#e0e0e0', fontFamily: '"Lora", "Georgia", serif', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      
       <style>{`
-        .navbar {
-          background: linear-gradient(135deg, #1a2332 0%, #2a3344 100%);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .back-link {
-          color: #d4af37;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-          color: #1a2332;
-        }
-
-        .article-header {
-          background: linear-gradient(135deg, #1a2332 0%, #2a3344 100%);
-          color: white;
-          padding: 3rem 0;
-        }
-
-        .article-title {
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
-          line-height: 1.2;
-        }
-
-        .article-meta {
-          display: flex;
-          gap: 1.5rem;
-          color: #ddd;
-          font-size: 0.95rem;
-          flex-wrap: wrap;
-        }
-
-        .article-meta-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .category-tag {
-          display: inline-block;
-          background: #d4af37;
-          color: #1a2332;
-          padding: 0.4rem 0.8rem;
-          border-radius: 4px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          margin-bottom: 1rem;
-        }
-
-        .article-image {
-          width: 100%;
-          height: 500px;
-          background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
-          position: relative;
-          overflow: hidden;
-          margin: 2rem 0;
-          border-radius: 8px;
-        }
-
-        .article-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .article-content {
-          font-size: 1.1rem;
-          line-height: 1.9;
-          color: #333;
-          max-width: 900px;
-        }
-
-        .article-content p {
-          margin-bottom: 1.5rem;
-        }
-
-        .article-divider {
-          border: none;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #d4af37, transparent);
-          margin: 3rem 0;
-        }
-
-        .share-section {
-          background: #f9f9f9;
-          padding: 2rem;
-          border-radius: 8px;
-          margin-top: 3rem;
-        }
-
-        .share-title {
-          font-weight: 700;
-          color: #1a2332;
-          margin-bottom: 1rem;
-        }
-
-        .share-buttons {
-          display: flex;
-          gap: 1rem;
-          flex-wrap: wrap;
-        }
-
-        .share-btn {
-          padding: 0.75rem 1.5rem;
-          border: 2px solid #d4af37;
-          background: white;
-          color: #d4af37;
-          border-radius: 6px;
-          cursor: pointer;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          text-decoration: none;
-          display: inline-block;
-        }
-
-        .share-btn:hover {
-          background: #d4af37;
-          color: white;
-          transform: translateY(-2px);
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:wght@400;600;700&display=swap');
+        
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      {/* Navigation */}
-      <nav className="navbar sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/">
-            <h1 className="text-2xl font-bold text-white cursor-pointer hover:text-yellow-400 transition">
-              T&G
-            </h1>
-          </Link>
-          <div className="flex gap-8">
-            <Link href="/about" className="text-white hover:text-yellow-400 transition">About</Link>
-            <Link href="/contact" className="text-white hover:text-yellow-400 transition">Contact</Link>
-          </div>
+      {/* ANIMATED BACKGROUND */}
+      <div style={{ position: 'fixed', top: '0', right: '0', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+
+      {/* NAVBAR */}
+      <nav style={{
+        borderBottom: '1px solid rgba(100, 200, 255, 0.2)',
+        padding: '1.5rem 2rem',
+        position: 'sticky',
+        top: 0,
+        background: 'rgba(15, 15, 30, 0.95)',
+        backdropFilter: 'blur(10px)',
+        zIndex: 50,
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+      }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ fontSize: '1.5rem', fontWeight: '900', background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>T&G</Link>
+          <Link href="/" style={{ color: '#64c8ff', fontWeight: '600', cursor: 'pointer', transition: 'all 0.3s' }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>← Back to Home</Link>
         </div>
       </nav>
 
-      {/* Back Link */}
-      <div className="max-w-4xl mx-auto px-6 pt-8 pb-2">
-        <Link href="/" className="back-link">← Back to Articles</Link>
-      </div>
+      {/* HERO IMAGE */}
+      {article.cover_image_url && (
+        <div style={{ width: '100%', height: '600px', position: 'relative', overflow: 'hidden' }}>
+          <Image
+            src={article.cover_image_url}
+            alt={article.title}
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(15, 15, 30, 0.8) 100%)' }}></div>
+        </div>
+      )}
 
-      {/* Article Header */}
-      <div className="article-header">
-        <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* ARTICLE HEADER */}
+      <div style={{
+        padding: '4rem 2rem 2rem',
+        position: 'relative',
+        zIndex: 10,
+        animation: 'slideDown 0.8s ease-out'
+      }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           {article.category && (
-            <div className="category-tag">{article.category}</div>
+            <p style={{
+              color: '#64c8ff',
+              textTransform: 'uppercase',
+              fontSize: '0.75rem',
+              letterSpacing: '2px',
+              marginBottom: '1.5rem',
+              fontWeight: '700'
+            }}>
+              {article.category}
+            </p>
           )}
-          
-          <h1 className="article-title">{article.title}</h1>
 
-          <div className="article-meta">
-            <div className="article-meta-item">
-              <span>📅</span>
-              <span>{publishDate}</span>
-            </div>
-            <div className="article-meta-item">
-              <span>⏱️</span>
-              <span>{readingTime} min read</span>
-            </div>
+          <h1 style={{
+            fontSize: '3.5rem',
+            fontWeight: '900',
+            lineHeight: '1.15',
+            marginBottom: '1.5rem',
+            color: '#fff',
+            fontFamily: '"Playfair Display", serif',
+            background: 'linear-gradient(135deg, #64c8ff, #ff64c8)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
+            {article.title}
+          </h1>
+
+          <div style={{
+            display: 'flex',
+            gap: '2.5rem',
+            color: '#a0a0a0',
+            fontSize: '0.95rem',
+            fontWeight: '500',
+            marginBottom: '2rem'
+          }}>
+            <span>📅 {publishDate}</span>
+            <span>⏱️ {readingTime} min read</span>
           </div>
         </div>
       </div>
 
-      {/* Article Content */}
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        
-        {/* Featured Image */}
-        {article.cover_image_url && (
-          <div className="article-image">
-            <Image
-              src={article.cover_image_url}
-              alt={article.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        {/* Body Text */}
-        <div className="article-content whitespace-pre-line">
+      {/* ARTICLE CONTENT */}
+      <article style={{
+        maxWidth: '900px',
+        margin: '0 auto',
+        padding: '4rem 2rem',
+        position: 'relative',
+        zIndex: 10
+      }}>
+        <div style={{
+          fontSize: '1.2rem',
+          color: '#d0d0d0',
+          lineHeight: '2',
+          whiteSpace: 'pre-wrap',
+          fontFamily: '"Lora", "Georgia", serif',
+          letterSpacing: '0.3px'
+        }}>
           {article.content}
         </div>
 
-        <hr className="article-divider" />
-
-        {/* Share Section */}
-        <div className="share-section">
-          <p className="share-title">Share This Article</p>
-          <div className="share-buttons">
-            <a 
-              href={`https://twitter.com/intent/tweet?text=${article.title}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="share-btn"
-            >
-              🐦 Twitter
+        {/* SHARE SECTION */}
+        <div style={{
+          marginTop: '5rem',
+          paddingTop: '3rem',
+          borderTop: '1px solid rgba(100, 200, 255, 0.2)'
+        }}>
+          <p style={{ color: '#64c8ff', marginBottom: '1.5rem', fontWeight: '700', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Share this article:</p>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}`} target="_blank" rel="noopener noreferrer" style={{
+              padding: '0.8rem 1.8rem',
+              background: 'rgba(100, 200, 255, 0.1)',
+              border: '1px solid rgba(100, 200, 255, 0.3)',
+              borderRadius: '8px',
+              color: '#64c8ff',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s'
+            }} onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(135deg, #64c8ff, #ff64c8)'; e.target.style.color = '#fff'; e.target.style.border = 'none' }} onMouseLeave={(e) => { e.target.style.background = 'rgba(100, 200, 255, 0.1)'; e.target.style.color = '#64c8ff'; e.target.style.border = '1px solid rgba(100, 200, 255, 0.3)' }}>
+              𝕏 Twitter
             </a>
-            <a 
-              href={`https://www.facebook.com/sharer/sharer.php?u=theology-and-geopolitics.vercel.app/articles/${article.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="share-btn"
-            >
-              📘 Facebook
+            <a href={`https://facebook.com/sharer/sharer.php?u=${typeof window !== 'undefined' ? window.location.href : ''}`} target="_blank" rel="noopener noreferrer" style={{
+              padding: '0.8rem 1.8rem',
+              background: 'rgba(100, 200, 255, 0.1)',
+              border: '1px solid rgba(100, 200, 255, 0.3)',
+              borderRadius: '8px',
+              color: '#64c8ff',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s'
+            }} onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(135deg, #64c8ff, #ff64c8)'; e.target.style.color = '#fff'; e.target.style.border = 'none' }} onMouseLeave={(e) => { e.target.style.background = 'rgba(100, 200, 255, 0.1)'; e.target.style.color = '#64c8ff'; e.target.style.border = '1px solid rgba(100, 200, 255, 0.3)' }}>
+              f Facebook
             </a>
-            <button 
-              onClick={() => navigator.clipboard.writeText(window.location.href)}
-              className="share-btn"
-            >
+            <button onClick={() => navigator.clipboard.writeText(typeof window !== 'undefined' ? window.location.href : '')} style={{
+              padding: '0.8rem 1.8rem',
+              background: 'rgba(100, 200, 255, 0.1)',
+              border: '1px solid rgba(100, 200, 255, 0.3)',
+              borderRadius: '8px',
+              color: '#64c8ff',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s'
+            }} onMouseEnter={(e) => { e.target.style.background = 'linear-gradient(135deg, #64c8ff, #ff64c8)'; e.target.style.color = '#fff'; e.target.style.border = 'none' }} onMouseLeave={(e) => { e.target.style.background = 'rgba(100, 200, 255, 0.1)'; e.target.style.color = '#64c8ff'; e.target.style.border = '1px solid rgba(100, 200, 255, 0.3)' }}>
               🔗 Copy Link
             </button>
           </div>
         </div>
-      </div>
+      </article>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12 px-6 mt-20">
-        <div className="max-w-7xl mx-auto text-center">
-          <p>&copy; 2024 Theology & Geopolitics. All rights reserved.</p>
-        </div>
+      {/* FOOTER */}
+      <footer style={{ background: 'rgba(15, 15, 30, 0.8)', borderTop: '1px solid rgba(100, 200, 255, 0.2)', padding: '3rem 2rem', textAlign: 'center', color: '#808080', position: 'relative', zIndex: 10 }}>
+        <p>&copy; 2024 Theology & Geopolitics. All rights reserved.</p>
       </footer>
     </div>
   )

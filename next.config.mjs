@@ -1,7 +1,7 @@
 const nextConfig = {
   images: {
-    domains: ['fzzevkpgzkavazcozxdk.supabase.co'],
+    domains: ["fzzevkpgzkavazcozxdk.supabase.co"],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

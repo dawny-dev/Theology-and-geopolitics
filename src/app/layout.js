@@ -1,19 +1,17 @@
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Playfair_Display, Inter } from "next/font/google";
 
 const playfair = Playfair_Display({
-  subsets: ['latin'],
-})
+  subsets: ["latin"],
+});
 
 const inter = Inter({
-  subsets: ['latin'],
-})
+  subsets: ["latin"],
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
-  )
+  );
 }

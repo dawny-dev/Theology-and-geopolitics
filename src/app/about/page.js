@@ -1,80 +1,99 @@
+// ═══════════════════════════════════════════════════════════════
+// FILE 1: src/app/about/page.js
+// ═══════════════════════════════════════════════════════════════
+
+import Link from 'next/link'
+
 export default function About() {
   return (
-    <div className="bg-white min-h-screen">
-      <style>{`
-        .navbar {
-          background: linear-gradient(135deg, #1a2332 0%, #2a3344 100%);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-          color: #1a2332;
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 2rem;
-        }
-
-        .content-text {
-          color: #333;
-          line-height: 1.8;
-          font-size: 1.05rem;
-        }
-      `}</style>
-
-      {/* Navigation */}
-      <nav className="navbar sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/">
-            <h1 className="text-2xl font-bold text-white cursor-pointer hover:text-yellow-400 transition">
-              T&G
-            </h1>
-          </a>
-          <div className="flex gap-8">
-            <a href="/about" className="text-white hover:text-yellow-400 transition">About</a>
-            <a href="/contact" className="text-white hover:text-yellow-400 transition">Contact</a>
+    <div style={{ background: '#ffffff', minHeight: '100vh', color: '#1a1a1a' }}>
+      {/* NAVBAR */}
+      <nav style={{ borderBottom: '1px solid #e8e8e8', padding: '1.5rem 3rem', background: '#fff' }}>
+        <div style={{ maxWidth: '1600px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ fontSize: '1.8rem', fontWeight: '900', color: '#1a1a1a' }}>T&G</Link>
+          <div style={{ display: 'flex', gap: '3rem' }}>
+            <Link href="/" style={{ color: '#666', fontWeight: '500' }}>Home</Link>
+            <Link href="/about" style={{ color: '#1a1a1a', fontWeight: '600' }}>About</Link>
+            <Link href="/contact" style={{ color: '#666', fontWeight: '500' }}>Contact</Link>
           </div>
         </div>
       </nav>
 
-      {/* Content */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <h1 className="section-title">About Theology & Geopolitics</h1>
-
-        <div className="content-text mb-8">
-          <p className="mb-6">
-            Welcome to Theology & Geopolitics, a platform dedicated to exploring the profound intersections between religious thought, faith traditions, and global political dynamics.
-          </p>
-
-          <p className="mb-6">
-            In an increasingly complex world, understanding how theology influences geopolitical decisions is essential. This website brings together in-depth analysis, historical perspectives, and contemporary insights into how religious beliefs shape international relations, conflict, and cooperation.
-          </p>
-
-          <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4" style={{ color: '#1a2332' }}>Our Mission</h2>
-          <p className="mb-6">
-            To provide thoughtful, nuanced analysis of how theology and faith intersect with global politics, power structures, and international affairs. We believe that understanding these connections is crucial for informed global citizenship.
-          </p>
-
-          <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4" style={{ color: '#1a2332' }}>What We Cover</h2>
-          <ul className="list-disc list-inside space-y-3 mb-6">
-            <li>Religious influence on international relations</li>
-            <li>Faith and global power dynamics</li>
-            <li>Historical theological perspectives on politics</li>
-            <li>Contemporary geopolitical analysis through a theological lens</li>
-            <li>Case studies of religion in global conflicts and cooperation</li>
-          </ul>
-
-          <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4" style={{ color: '#1a2332' }}>Contact Us</h2>
-          <p>
-            Have questions or want to contribute? <a href="/contact" className="text-blue-600 hover:underline">Get in touch</a>.
+      {/* HERO SECTION */}
+      <section style={{
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+        color: '#fff',
+        padding: '6rem 3rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '3.5rem', fontWeight: '900', marginBottom: '1.5rem', lineHeight: '1.2' }}>
+            About Theology & Geopolitics
+          </h1>
+          <p style={{ fontSize: '1.3rem', color: '#ccc', lineHeight: '1.6' }}>
+            Exploring the profound intersections between faith, power, and global influence
           </p>
         </div>
-      </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12 px-6 mt-20">
-        <div className="max-w-7xl mx-auto text-center">
-          <p>&copy; 2024 Theology & Geopolitics. All rights reserved.</p>
+      {/* CONTENT SECTIONS */}
+      <section style={{ padding: '5rem 3rem' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          
+          {/* SECTION 1 */}
+          <div style={{ marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '1.5rem', color: '#1a1a1a' }}>
+              Our Mission
+            </h2>
+            <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.8', marginBottom: '1rem' }}>
+              Theology & Geopolitics is dedicated to exploring the profound intersections between religious thought, faith traditions, and global political dynamics. In an increasingly complex world, understanding how theology influences geopolitical decisions is essential.
+            </p>
+            <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.8' }}>
+              We bring together in-depth analysis, historical perspectives, and contemporary insights into how religious beliefs shape international relations, conflict, and cooperation on the world stage.
+            </p>
+          </div>
+
+          {/* SECTION 2 */}
+          <div style={{ marginBottom: '4rem' }}>
+            <h2 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '1.5rem', color: '#1a1a1a' }}>
+              What We Cover
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+              {['Religion & International Relations', 'Faith & Global Power Dynamics', 'Historical Theological Perspectives', 'Contemporary Geopolitical Analysis', 'Case Studies in Global Conflicts', 'Interfaith Perspectives'].map((item, i) => (
+                <div key={i} style={{
+                  background: '#f8f8f8',
+                  padding: '2rem',
+                  borderRadius: '12px',
+                  border: '1px solid #e8e8e8'
+                }}>
+                  <h3 style={{ color: '#1a1a1a', fontWeight: '700', marginBottom: '0.5rem' }}>
+                    ◆ {item}
+                  </h3>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SECTION 3 */}
+          <div style={{
+            background: 'linear-gradient(135deg, #f8f8f8 0%, #fff 100%)',
+            padding: '3rem',
+            borderRadius: '12px',
+            border: '1px solid #e8e8e8'
+          }}>
+            <h2 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '1.5rem', color: '#1a1a1a' }}>
+              Why This Matters
+            </h2>
+            <p style={{ fontSize: '1.1rem', color: '#555', lineHeight: '1.8' }}>
+              Religious narratives are often intertwined with political objectives. Leaders frequently use religious identity to rally populations and justify policies. By analyzing these intersections, we gain deeper insight into world events, international relations, and the decision-making processes that shape our future. Understanding theology through a geopolitical lens is no longer optional—it's essential.
+            </p>
+          </div>
         </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{ background: '#1a1a1a', color: '#fff', padding: '3rem', textAlign: 'center', borderTop: '1px solid #333' }}>
+        <p>&copy; 2026 Theology & Geopolitics. All rights reserved.</p>
       </footer>
     </div>
   )
