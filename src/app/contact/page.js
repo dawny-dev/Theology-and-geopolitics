@@ -1,279 +1,88 @@
 'use client'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [hoveredField, setHoveredField] = useState(null)
+  const [language, setLanguage] = useState('en')
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
 
-  const handleSubmit = (e) => {
+  const languages = [
+    { code: 'en', flag: '🇬🇧' }, { code: 'hi', flag: '🇮🇳' }, { code: 'es', flag: '🇪🇸' },
+    { code: 'fr', flag: '🇫🇷' }, { code: 'de', flag: '🇩🇪' }, { code: 'zh', flag: '🇨🇳' },
+    { code: 'ja', flag: '🇯🇵' },
+  ]
+
+  const translations = {
+    en: { home: 'Home', about: 'About', contact: 'Contact', pricing: 'Pricing', title: 'Contact Us', desc: 'Get in touch with our team.', name: 'Name', email: 'Email', message: 'Message', send: 'Send Message', copyright: '© 2026 Theology & Geopolitics' },
+    hi: { home: 'होम', about: 'परिचय', contact: 'संपर्क', pricing: 'मूल्य', title: 'हमसे संपर्क करें', desc: 'हमारी टीम से संपर्क करें।', name: 'नाम', email: 'ईमेल', message: 'संदेश', send: 'संदेश भेजें', copyright: '© 2026 धर्मशास्त्र और भू-राजनीति' },
+    es: { home: 'Inicio', about: 'Acerca de', contact: 'Contacto', pricing: 'Precios', title: 'Contacta con Nosotros', desc: 'Comunícate con nuestro equipo.', name: 'Nombre', email: 'Correo', message: 'Mensaje', send: 'Enviar', copyright: '© 2026 Teología y Geopolítica' },
+    fr: { home: 'Accueil', about: 'À Propos', contact: 'Contact', pricing: 'Tarifs', title: 'Nous Contacter', desc: 'Entrez en contact avec notre équipe.', name: 'Nom', email: 'Email', message: 'Message', send: 'Envoyer', copyright: '© 2026 Théologie et Géopolitique' },
+    de: { home: 'Startseite', about: 'Über Uns', contact: 'Kontakt', pricing: 'Preise', title: 'Kontaktieren Sie Uns', desc: 'Nehmen Sie Kontakt mit unserem Team auf.', name: 'Name', email: 'E-Mail', message: 'Nachricht', send: 'Senden', copyright: '© 2026 Theologie und Geopolitik' },
+    zh: { home: '首页', about: '关于', contact: '联系', pricing: '价格', title: '联系我们', desc: '与我们的团队联系。', name: '姓名', email: '电子邮件', message: '消息', send: '发送', copyright: '© 2026 神学与地缘政治' },
+    ja: { home: 'ホーム', about: '概要', contact: 'お問い合わせ', pricing: '料金', title: 'お問い合わせ', desc: '私たちのチームにお問い合わせください。', name: '名前', email: 'メール', message: 'メッセージ', send: '送信', copyright: '© 2026 神学と地政学' }
+  }
+
+  const t = translations[language] || translations.en
+
+  useEffect(() => {
+    setLanguage(localStorage.getItem('language') || 'en')
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    }, 4000)
+    alert('Message sent! (Demo - integrate with API)')
+    setFormData({ name: '', email: '', message: '' })
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', color: '#e0e0e0', fontFamily: 'system-ui, -apple-system, sans-serif', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%)', color: '#e0e0e0', minHeight: '100vh' }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');`}</style>
       
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
-        
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-
-        @keyframes shimmer {
-          0% { background-position: -1000px 0; }
-          100% { background-position: 1000px 0; }
-        }
-
-        input, textarea {
-          transition: all 0.3s ease !important;
-        }
-
-        input:focus, textarea:focus {
-          box-shadow: 0 0 30px rgba(100, 200, 255, 0.3) !important;
-        }
-      `}</style>
-
-      {/* ANIMATED BACKGROUND ELEMENTS */}
-      <div style={{ position: 'fixed', top: '5%', left: '10%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(100, 200, 255, 0.15) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none', animation: 'float 8s ease-in-out infinite' }}></div>
-      <div style={{ position: 'fixed', bottom: '10%', right: '5%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255, 100, 200, 0.15) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none', animation: 'float 10s ease-in-out infinite 2s' }}></div>
-
-      {/* NAVBAR */}
-      <nav style={{
-        borderBottom: '1px solid rgba(100, 200, 255, 0.2)',
-        padding: '1.5rem 2rem',
-        background: 'rgba(15, 15, 30, 0.95)',
-        backdropFilter: 'blur(10px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Link href="/" style={{ fontSize: '1.8rem', fontWeight: '900', background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>T&G</Link>
-          <Link href="/" style={{ color: '#b0b0b0', fontWeight: '500', cursor: 'pointer' }} onMouseEnter={(e) => e.target.style.color = '#64c8ff'} onMouseLeave={(e) => e.target.style.color = '#b0b0b0'}>← Back to Home</Link>
+      <nav style={{ borderBottom: '1px solid rgba(100, 200, 255, 0.15)', padding: '1.5rem 2rem', background: 'rgba(15, 15, 30, 0.92)', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ fontSize: '1.6rem', fontWeight: '900', background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', textDecoration: 'none' }}>T&G</Link>
+          <div style={{ display: 'flex', gap: '2rem' }}>
+            <Link href="/" style={{ fontWeight: '500', color: '#b0b0b0', textDecoration: 'none' }}>{t.home}</Link>
+            <Link href="/about" style={{ fontWeight: '500', color: '#b0b0b0', textDecoration: 'none' }}>{t.about}</Link>
+            <Link href="/contact" style={{ fontWeight: '500', color: '#64c8ff', textDecoration: 'none' }}>{t.contact}</Link>
+            <Link href="/pricing" style={{ fontWeight: '500', color: '#b0b0b0', textDecoration: 'none' }}>{t.pricing}</Link>
+          </div>
         </div>
       </nav>
 
-      {/* HERO SECTION */}
-      <section style={{
-        padding: '6rem 2rem 4rem',
-        textAlign: 'center',
-        borderBottom: '1px solid rgba(100, 200, 255, 0.2)',
-        position: 'relative',
-        zIndex: 10,
-        animation: 'slideUp 0.8s ease-out'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '1.5rem', animation: 'float 3s ease-in-out infinite' }}>💌</div>
-          <h1 style={{ fontSize: '3.5rem', fontWeight: '900', marginBottom: '1rem', fontFamily: '"Playfair Display", serif', background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            Get In Touch
-          </h1>
-          <p style={{ fontSize: '1.2rem', color: '#a0a0a0', lineHeight: '1.8' }}>
-            We'd love to hear your thoughts, questions, or feedback. Fill out the form below and we'll get back to you as soon as possible.
-          </p>
-        </div>
-      </section>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '5rem 2rem' }}>
+        <h1 style={{ fontSize: '3.5rem', fontWeight: '900', fontFamily: '"Playfair Display", serif', background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', marginBottom: '1rem' }}>{t.title}</h1>
+        <p style={{ fontSize: '1.2rem', color: '#a0a0a0', marginBottom: '3rem' }}>{t.desc}</p>
 
-      {/* FORM SECTION */}
-      <section style={{ padding: '5rem 2rem', position: 'relative', zIndex: 10 }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          
-          {submitted && (
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(100, 255, 100, 0.1))',
-              border: '2px solid #64ff64',
-              color: '#64ff64',
-              padding: '2rem',
-              borderRadius: '12px',
-              marginBottom: '2rem',
-              textAlign: 'center',
-              fontWeight: '700',
-              animation: 'slideUp 0.5s ease-out',
-              boxShadow: '0 0 30px rgba(100, 255, 100, 0.3)'
-            }}>
-              ✓ Message sent successfully! We'll get back to you soon.
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} style={{ animation: 'slideUp 0.8s ease-out 0.2s both' }}>
-            
-            {/* NAME FIELD */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontWeight: '700', marginBottom: '0.75rem', color: hoveredField === 'name' ? '#64c8ff' : '#e0e0e0', transition: 'color 0.3s', fontSize: '0.95rem' }}>
-                Your Name
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                onFocus={() => setHoveredField('name')}
-                onBlur={() => setHoveredField(null)}
-                required
-                placeholder="John Doe"
-                style={{
-                  width: '100%',
-                  padding: '1rem 1.5rem',
-                  background: 'rgba(100, 200, 255, 0.05)',
-                  border: hoveredField === 'name' ? '2px solid #64c8ff' : '1px solid rgba(100, 200, 255, 0.2)',
-                  borderRadius: '8px',
-                  color: '#e0e0e0',
-                  fontSize: '1rem',
-                  fontFamily: 'inherit'
-                }}
-              />
-            </div>
-
-            {/* EMAIL FIELD */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontWeight: '700', marginBottom: '0.75rem', color: hoveredField === 'email' ? '#64c8ff' : '#e0e0e0', transition: 'color 0.3s', fontSize: '0.95rem' }}>
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                onFocus={() => setHoveredField('email')}
-                onBlur={() => setHoveredField(null)}
-                required
-                placeholder="john@example.com"
-                style={{
-                  width: '100%',
-                  padding: '1rem 1.5rem',
-                  background: 'rgba(100, 200, 255, 0.05)',
-                  border: hoveredField === 'email' ? '2px solid #64c8ff' : '1px solid rgba(100, 200, 255, 0.2)',
-                  borderRadius: '8px',
-                  color: '#e0e0e0',
-                  fontSize: '1rem',
-                  fontFamily: 'inherit'
-                }}
-              />
-            </div>
-
-            {/* SUBJECT FIELD */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontWeight: '700', marginBottom: '0.75rem', color: hoveredField === 'subject' ? '#64c8ff' : '#e0e0e0', transition: 'color 0.3s', fontSize: '0.95rem' }}>
-                Subject
-              </label>
-              <input
-                type="text"
-                value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                onFocus={() => setHoveredField('subject')}
-                onBlur={() => setHoveredField(null)}
-                required
-                placeholder="What's this about?"
-                style={{
-                  width: '100%',
-                  padding: '1rem 1.5rem',
-                  background: 'rgba(100, 200, 255, 0.05)',
-                  border: hoveredField === 'subject' ? '2px solid #64c8ff' : '1px solid rgba(100, 200, 255, 0.2)',
-                  borderRadius: '8px',
-                  color: '#e0e0e0',
-                  fontSize: '1rem',
-                  fontFamily: 'inherit'
-                }}
-              />
-            </div>
-
-            {/* MESSAGE FIELD */}
-            <div style={{ marginBottom: '2rem' }}>
-              <label style={{ display: 'block', fontWeight: '700', marginBottom: '0.75rem', color: hoveredField === 'message' ? '#64c8ff' : '#e0e0e0', transition: 'color 0.3s', fontSize: '0.95rem' }}>
-                Message
-              </label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                onFocus={() => setHoveredField('message')}
-                onBlur={() => setHoveredField(null)}
-                required
-                placeholder="Your message here..."
-                style={{
-                  width: '100%',
-                  padding: '1rem 1.5rem',
-                  background: 'rgba(100, 200, 255, 0.05)',
-                  border: hoveredField === 'message' ? '2px solid #64c8ff' : '1px solid rgba(100, 200, 255, 0.2)',
-                  borderRadius: '8px',
-                  color: '#e0e0e0',
-                  fontSize: '1rem',
-                  minHeight: '180px',
-                  fontFamily: 'inherit',
-                  resize: 'vertical'
-                }}
-              />
-            </div>
-
-            {/* SUBMIT BUTTON */}
-            <button
-              type="submit"
-              style={{
-                width: '100%',
-                padding: '1.2rem',
-                background: 'linear-gradient(135deg, #64c8ff, #ff64c8)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                fontWeight: '700',
-                fontSize: '1.05rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                boxShadow: '0 10px 30px rgba(100, 200, 255, 0.3)'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-4px) scale(1.02)'
-                e.target.style.boxShadow = '0 20px 50px rgba(100, 200, 255, 0.5)'
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0) scale(1)'
-                e.target.style.boxShadow = '0 10px 30px rgba(100, 200, 255, 0.3)'
-              }}
-            >
-              Send Message ✨
-            </button>
-          </form>
-
-          {/* CONTACT INFO */}
-          <div style={{ marginTop: '4rem', paddingTop: '4rem', borderTop: '1px solid rgba(100, 200, 255, 0.2)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' }}>
-            <div style={{ animation: 'slideUp 0.8s ease-out 0.3s both' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📧</div>
-              <p style={{ color: '#a0a0a0', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Email</p>
-              <p style={{ fontWeight: '600' }}>hello@tg.com</p>
-            </div>
-            <div style={{ animation: 'slideUp 0.8s ease-out 0.4s both' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🌍</div>
-              <p style={{ color: '#a0a0a0', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Website</p>
-              <p style={{ fontWeight: '600' }}>theology-geopolitics.com</p>
-            </div>
-            <div style={{ animation: 'slideUp 0.8s ease-out 0.5s both' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>💬</div>
-              <p style={{ color: '#a0a0a0', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Response Time</p>
-              <p style={{ fontWeight: '600' }}>24 hours</p>
-            </div>
+        <form onSubmit={handleSubmit} style={{ background: 'rgba(100, 200, 255, 0.08)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(100, 200, 255, 0.2)' }}>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#64c8ff', fontWeight: '700' }}>{t.name}</label>
+            <input type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(100, 200, 255, 0.05)', border: '1px solid rgba(100, 200, 255, 0.2)', borderRadius: '6px', color: '#e0e0e0', boxSizing: 'border-box' }} />
           </div>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#64c8ff', fontWeight: '700' }}>{t.email}</label>
+            <input type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(100, 200, 255, 0.05)', border: '1px solid rgba(100, 200, 255, 0.2)', borderRadius: '6px', color: '#e0e0e0', boxSizing: 'border-box' }} />
+          </div>
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', color: '#64c8ff', fontWeight: '700' }}>{t.message}</label>
+            <textarea required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} style={{ width: '100%', padding: '0.75rem', background: 'rgba(100, 200, 255, 0.05)', border: '1px solid rgba(100, 200, 255, 0.2)', borderRadius: '6px', color: '#e0e0e0', minHeight: '150px', boxSizing: 'border-box' }} />
+          </div>
+          <button type="submit" style={{ background: 'linear-gradient(135deg, #64c8ff, #ff64c8)', color: '#fff', border: 'none', padding: '0.75rem 2rem', borderRadius: '6px', fontWeight: '700', cursor: 'pointer', width: '100%' }}>{t.send}</button>
+        </form>
+      </div>
+
+      <section style={{ padding: '3rem 2rem', borderTop: '1px solid rgba(100, 200, 255, 0.15)', textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+          {languages.map(lang => (
+            <button key={lang.code} onClick={() => { setLanguage(lang.code); localStorage.setItem('language', lang.code); }} style={{ padding: '0.6rem 1rem', background: language === lang.code ? 'linear-gradient(135deg, #64c8ff, #ff64c8)' : 'transparent', border: language === lang.code ? 'none' : '1px solid rgba(100, 200, 255, 0.25)', color: language === lang.code ? '#fff' : '#b0b0b0', borderRadius: '6px', cursor: 'pointer', fontWeight: '600', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>{lang.flag}</span> {lang.code.toUpperCase()}
+            </button>
+          ))}
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ background: 'rgba(15, 15, 30, 0.8)', borderTop: '1px solid rgba(100, 200, 255, 0.2)', padding: '3rem 2rem', textAlign: 'center', color: '#808080', position: 'relative', zIndex: 10 }}>
-        <p>&copy; 2024 Theology & Geopolitics. All rights reserved.</p>
+      <footer style={{ background: 'rgba(15, 15, 30, 0.95)', borderTop: '1px solid rgba(100, 200, 255, 0.15)', padding: '3rem 2rem', textAlign: 'center', marginTop: '3rem' }}>
+        <p style={{ color: '#707070', fontSize: '0.85rem', margin: 0 }}>{t.copyright}</p>
       </footer>
     </div>
   )

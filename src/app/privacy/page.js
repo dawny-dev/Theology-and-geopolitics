@@ -13,13 +13,13 @@ export default function About() {
   ]
 
   const translations = {
-    en: { home: 'Home', about: 'About', contact: 'Contact', pricing: 'Pricing', profile: 'Profile', logout: 'Logout', login: 'Login', signup: 'Sign Up', title: 'About Theology & Geopolitics', desc: 'Learn about our mission and vision.', copyright: '© 2026 Theology & Geopolitics' },
-    hi: { home: 'होम', about: 'परिचय', contact: 'संपर्क', pricing: 'मूल्य', profile: 'प्रोफाइल', logout: 'लॉगआउट', login: 'लॉगिन', signup: 'साइन अप', title: 'धर्मशास्त्र और भू-राजनीति के बारे में', desc: 'हमारे मिशन और दृष्टिकोण के बारे में जानें।', copyright: '© 2026 धर्मशास्त्र और भू-राजनीति' },
-    es: { home: 'Inicio', about: 'Acerca de', contact: 'Contacto', pricing: 'Precios', profile: 'Perfil', logout: 'Cerrar Sesión', login: 'Iniciar Sesión', signup: 'Registrarse', title: 'Acerca de Teología y Geopolítica', desc: 'Conoce nuestra misión y visión.', copyright: '© 2026 Teología y Geopolítica' },
-    fr: { home: 'Accueil', about: 'À Propos', contact: 'Contact', pricing: 'Tarifs', profile: 'Profil', logout: 'Déconnexion', login: 'Connexion', signup: 'S\'inscrire', title: 'À Propos de Théologie et Géopolitique', desc: 'Découvrez notre mission et notre vision.', copyright: '© 2026 Théologie et Géopolitique' },
-    de: { home: 'Startseite', about: 'Über Uns', contact: 'Kontakt', pricing: 'Preise', profile: 'Profil', logout: 'Abmelden', login: 'Anmelden', signup: 'Registrieren', title: 'Über Theologie und Geopolitik', desc: 'Erfahren Sie mehr über unsere Mission und Vision.', copyright: '© 2026 Theologie und Geopolitik' },
-    zh: { home: '首页', about: '关于', contact: '联系', pricing: '价格', profile: '个人资料', logout: '登出', login: '登录', signup: '注册', title: '关于神学与地缘政治', desc: '了解我们的使命和愿景。', copyright: '© 2026 神学与地缘政治' },
-    ja: { home: 'ホーム', about: '概要', contact: 'お問い合わせ', pricing: '料金', profile: 'プロフィール', logout: 'ログアウト', login: 'ログイン', signup: 'サインアップ', title: '神学と地政学について', desc: '私たちのミッションとビジョンについて学んでください。', copyright: '© 2026 神学と地政学' }
+    en: { home: 'Home', about: 'About', contact: 'Contact', pricing: 'Pricing', profile: 'Profile', logout: 'Logout', login: 'Login', signup: 'Sign Up', title: 'Privacy Policy', desc: 'Learn how we collect, use, and protect your information.', copyright: '© 2026 Theology & Geopolitics' },
+    hi: { home: 'होम', about: 'परिचय', contact: 'संपर्क', pricing: 'मूल्य', profile: 'प्रोफाइल', logout: 'लॉगआउट', login: 'लॉगिन', signup: 'साइन अप', title: 'गोपनीयता नीति', desc: 'जानें कि हम आपकी जानकारी कैसे एकत्र, उपयोग और सुरक्षित रखते हैं।', copyright: '© 2026 धर्मशास्त्र और भू-राजनीति' },
+    es: { home: 'Inicio', about: 'Acerca de', contact: 'Contacto', pricing: 'Precios', profile: 'Perfil', logout: 'Cerrar Sesión', login: 'Iniciar Sesión', signup: 'Registrarse', title: 'Política de Privacidad', desc: 'Aprende cómo recopilamos, usamos y protegemos tu información.', copyright: '© 2026 Teología y Geopolítica' },
+    fr: { home: 'Accueil', about: 'À Propos', contact: 'Contact', pricing: 'Tarifs', profile: 'Profil', logout: 'Déconnexion', login: 'Connexion', signup: 'S\'inscrire', title: 'Politique de Confidentialité', desc: 'Découvrez comment nous collectons, utilisons et protégeons vos données.', copyright: '© 2026 Théologie et Géopolitique' },
+    de: { home: 'Startseite', about: 'Über Uns', contact: 'Kontakt', pricing: 'Preise', profile: 'Profil', logout: 'Abmelden', login: 'Anmelden', signup: 'Registrieren', title: 'Datenschutzrichtlinie', desc: 'Erfahren Sie, wie wir Ihre Daten sammeln, verwenden und schützen.', copyright: '© 2026 Theologie und Geopolitik' },
+    zh: { home: '首页', about: '关于', contact: '联系', pricing: '价格', profile: '个人资料', logout: '登出', login: '登录', signup: '注册', title: '隐私政策', desc: '了解我们如何收集、使用和保护您的信息。', copyright: '© 2026 神学与地缘政治' },
+    ja: { home: 'ホーム', about: '概要', contact: 'お問い合わせ', pricing: '料金', profile: 'プロフィール', logout: 'ログアウト', login: 'ログイン', signup: 'サインアップ', title: 'プライバシーポリシー', desc: '当社がどのように情報を収集・使用・保護するかをご覧ください。', copyright: '© 2026 神学と地政学' }
   }
 
   const t = translations[language] || translations.en
@@ -53,15 +53,17 @@ export default function About() {
         <p style={{ fontSize: '1.2rem', color: '#a0a0a0', marginBottom: '3rem' }}>{t.desc}</p>
         
         <div style={{ background: 'linear-gradient(135deg, rgba(100, 200, 255, 0.08), rgba(255, 100, 200, 0.06))', border: '1px solid rgba(100, 200, 255, 0.2)', padding: '3rem', borderRadius: '12px', marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '1.5rem', color: '#fff' }}>Our Mission</h2>
+          
+          <h2 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '1.5rem', color: '#fff' }}>Information We Collect</h2>
           <p style={{ fontSize: '1.05rem', color: '#c0c0c0', lineHeight: '1.8', marginBottom: '2rem' }}>
-            Theology & Geopolitics explores the complex intersection of religious belief, political power, and global influence. We provide in-depth analysis and thought-provoking articles that help readers understand how faith shapes international relations and vice versa.
+            We may collect personal information such as your name, email address, and usage data when you interact with our platform. This includes information you provide directly and data collected automatically through cookies and analytics tools.
           </p>
           
-          <h2 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '1.5rem', color: '#fff' }}>Our Vision</h2>
+          <h2 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '1.5rem', color: '#fff' }}>How We Use Your Information</h2>
           <p style={{ fontSize: '1.05rem', color: '#c0c0c0', lineHeight: '1.8' }}>
-            To be the leading platform for nuanced discussion on the role of theology, religion, and spirituality in shaping global politics and international affairs. We aim to bridge divides and foster understanding through quality journalism and scholarly analysis.
+            Your information is used to improve our services, personalize your experience, and communicate important updates. We do not sell your personal data and take appropriate measures to ensure your information remains secure.
           </p>
+
         </div>
       </div>
 
