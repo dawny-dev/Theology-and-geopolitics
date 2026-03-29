@@ -18,7 +18,7 @@ export default function FAQ() {
     fr: { home: 'Accueil', about: 'À Propos', contact: 'Contact', pricing: 'Tarifs', title: 'Questions Fréquemment Posées', copyright: '© 2026 Théologie et Géopolitique' },
     de: { home: 'Startseite', about: 'Über Uns', contact: 'Kontakt', pricing: 'Preise', title: 'Häufig Gestellte Fragen', copyright: '© 2026 Theologie und Geopolitik' },
     zh: { home: '首页', about: '关于', contact: '联系', pricing: '价格', title: '常见问题', copyright: '© 2026 神学与地缘政治' },
-    ja: { home: 'ホーム', about: '概要', contact: 'お問い合わせ', pricing: '料金', title 'よくある質問', copyright: '© 2026 神学と地政学' }
+    ja: { home: 'ホーム', about: '概要', contact: 'お問い合わせ', pricing: '料金', title: 'よくある質問', copyright: '© 2026 神学と地政学' }
   }
 
   const t = translations[language] || translations.en

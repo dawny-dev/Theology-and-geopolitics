@@ -3,6 +3,7 @@
 // ═══════════════════════════════════════════════════════════════
 // FILE 2: src/app/login/page.js - COMPLETE REWRITE
 // ═══════════════════════════════════════════════════════════════
+'use client';
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
